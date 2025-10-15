@@ -16,22 +16,23 @@
   <header>
     <img src="prince.png" alt="Restaurant Le Prince" id="restaurant-logo"/>
     <h1>Restaurant Le Prince</h1>
-    <p>Depuis 1987, la maison resto prince est une institution de la gastronomie nationale à travers un réseau de trois points de vente.</p>
+    <p>Depuis 1987, la maison resto prince est une institution de la gastronomie nationale.</p>
   </header>
 
-  <section id="description">
-    <p>Elle est présentée dans l’ensemble des métiers de la gastronomie et recouvre de multiples activités :</p>
-    <ul>
-      <li>Restaurants, pâtisseries, pizzeria, traiteurs, glaceries, salon de thé et club sandwich.</li>
-      <li>Pour être au plus près de sa clientèle, Resto Prince s’installe en plein cœur de la ville où il cultive un talent culinaire réel. Toute l’équipe avance avec succès dans le monde de la grande gastronomie.</li>
-      <li>Resto Prince est un temple pour les fins gourmets et incarne l’art de recevoir pour faire de votre fête un moment inoubliable.</li>
-      <li>Sous l’impulsion de son fondateur et de la direction, l’innovation et la satisfaction de la clientèle sont notre devise.</li>
-    </ul>
-  </section>
+  <nav id="menu-nav">
+    <!-- Menu fixe -->
+  </nav>
 
   <main id="menu-container">
     <!-- Les plats seront ajoutés dynamiquement via script.js -->
   </main>
+
+  <!-- Section viewer 3D/AR -->
+  <section id="viewer" class="hidden">
+    <button id="backBtn">⬅ Retour au menu</button>
+    <h2 id="platName"></h2>
+    <model-viewer id="modelViewer" ar ar-modes="scene-viewer quick-look webxr" camera-controls auto-rotate></model-viewer>
+  </section>
 
   <!-- Section contact et feedback -->
   <section id="contact-feedback">
@@ -39,15 +40,13 @@
     <p>📍 Adresse : 25 Rue Jamel Abdenasser, Tunis, Tunisie</p>
     <p>📞 Téléphone : <a href="tel:+21627570531">+21627570531</a></p>
     <p>🗺️ <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/data=!4m8!3m7!1s0x12fd357468e22417:0xaa40488fca9924ef!8m2!3d36.7971962!4d10.1787722!9m1!1b1!16s%2Fg%2F11nfrprww_?entry=ttu&g_ep=EgoyMDI1MTAxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">Voir sur Google Maps</a></p>
-    <p>💬 Laissez-nous votre avis via QR code :</p>
-    <img src="qr-feedback.png" alt="QR Code Feedback Google Maps" id="qr-feedback"/>
+    <p>💬 <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/data=!4m8!3m7!1s0x12fd357468e22417:0xaa40488fca9924ef!8m2!3d36.7971962!4d10.1787722!9m1!1b1!16s%2Fg%2F11nfrprww_?entry=ttu&g_ep=EgoyMDI1MTAxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">Laisser un feedback ici</a></p>
   </section>
 
   <footer>
     <p>© 2025 Restaurant Le Prince – Expérience AR</p>
   </footer>
 
-  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>
