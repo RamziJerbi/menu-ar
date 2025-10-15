@@ -71,6 +71,11 @@ header p {
   color: #555;
 }
 
+.card .price {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
 button {
   background-color: #e67e22;
   color: white;
