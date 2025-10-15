@@ -91,6 +91,34 @@ button:hover {
   box-shadow: 0 4px 12px rgba(230,126,34,0.6);
 }
 
+#contact-feedback {
+  background: #f4f4f4;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#contact-feedback h2 {
+  margin-top: 0;
+  color: #d35400;
+}
+
+#contact-feedback a {
+  color: #e67e22;
+  text-decoration: none;
+}
+
+#contact-feedback a:hover {
+  text-decoration: underline;
+}
+
+#qr-feedback {
+  width: 150px;
+  margin-top: 10px;
+}
+
 footer {
   background-color: #d35400;
   color: white;
