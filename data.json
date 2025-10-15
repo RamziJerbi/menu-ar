@@ -5,7 +5,8 @@
     "description": "Salade grillée tunisienne à base de poivrons et tomates.",
     "model": "models/salata-mechouia.glb",
     "ios_model": "models/salata-mechouia.usdz",
-    "ingredients": ["poivrons", "tomates", "oignon", "huile d'olive", "câpres"]
+    "ingredients": ["poivrons", "tomates", "oignon", "huile d'olive", "câpres"],
+    "prix": 5
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "description": "Riz safrané traditionnel, parfumé et léger.",
     "model": "models/rouz-asfar.glb",
     "ios_model": "models/rouz-asfar.usdz",
-    "ingredients": ["riz", "curcuma", "huile d'olive", "sel"]
+    "ingredients": ["riz", "curcuma", "huile d'olive", "sel"],
+    "prix": 7
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "description": "Lasagne gratinée à la sauce bolognaise maison.",
     "model": "models/lasagne.glb",
     "ios_model": "models/lasagne.usdz",
-    "ingredients": ["pâtes", "viande hachée", "tomates", "béchamel", "fromage"]
+    "ingredients": ["pâtes", "viande hachée", "tomates", "béchamel", "fromage"],
+    "prix": 9
   },
   {
     "id": 4,
@@ -29,6 +32,7 @@
     "description": "Mélange de grillades tunisiennes et accompagnements.",
     "model": "models/plat-mixte.glb",
     "ios_model": "models/plat-mixte.usdz",
-    "ingredients": ["poulet", "merguez", "salade", "frites"]
+    "ingredients": ["poulet", "merguez", "salade", "frites"],
+    "prix": 12
   }
 ]
