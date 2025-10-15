@@ -1,6 +1,5 @@
 // script.js
 
-// Charger les plats depuis data.json et créer les cartes
 async function loadMenu() {
   const response = await fetch('data.json');
   const plats = await response.json();
@@ -10,7 +9,6 @@ async function loadMenu() {
     const card = document.createElement('div');
     card.classList.add('card');
     card.innerHTML = `
-      <img src="${plat.image}" alt="${plat.nom}">
       <h3>${plat.nom}</h3>
       <p>${plat.description}</p>
       <button onclick="showAR(${plat.id})">Voir en 3D / AR</button>
@@ -19,16 +17,13 @@ async function loadMenu() {
   });
 }
 
-// Afficher le modèle 3D et AR
 async function showAR(id) {
   const response = await fetch('data.json');
   const plats = await response.json();
   const plat = plats.find(p => p.id === id);
 
-  // Masquer le menu
   document.getElementById('menu-container').classList.add('hidden');
 
-  // Créer la section viewer si elle n'existe pas
   let viewerSection = document.getElementById('viewer');
   if (!viewerSection) {
     viewerSection = document.createElement('section');
