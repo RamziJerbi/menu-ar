@@ -1,23 +1,39 @@
-// script.js
-
 let currentSelected = null;
 
 async function loadMenu() {
   const response = await fetch('data.json');
   const plats = await response.json();
+
   const container = document.getElementById('menu-container');
+  const nav = document.getElementById('menu-nav');
 
   plats.forEach(plat => {
+    // Créer la carte du plat
     const card = document.createElement('div');
     card.classList.add('card');
     card.innerHTML = `
       <h3>${plat.nom}</h3>
       <p>${plat.description}</p>
       <div class="price">${plat.prix} DT</div>
-      <button onclick="showAR(${plat.id})">Voir en 3D / AR</button>
+      <button class="viewBtn" onclick="showAR(${plat.id})">Voir en 3D / AR</button>
     `;
     container.appendChild(card);
+
+    // Créer le bouton du menu fixe
+    const menuBtn = document.createElement('button');
+    menuBtn.textContent = plat.nom;
+    menuBtn.addEventListener('click', () => {
+      showAR(plat.id);
+      setActiveMenu(menuBtn);
+    });
+    nav.appendChild(menuBtn);
   });
+}
+
+function setActiveMenu(btn) {
+  const allBtns = document.querySelectorAll('#menu-nav button');
+  allBtns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 async function showAR(id) {
@@ -25,37 +41,13 @@ async function showAR(id) {
   const plats = await response.json();
   const plat = plats.find(p => p.id === id);
 
+  // Désélectionner la précédente carte
   if (currentSelected) currentSelected.classList.remove('selected');
 
   const cards = document.querySelectorAll('.card');
   currentSelected = Array.from(cards).find(c => c.querySelector('button').onclick.toString().includes(`showAR(${id})`));
   if (currentSelected) currentSelected.classList.add('selected');
 
-  let viewerSection = document.getElementById('viewer');
-  if (!viewerSection) {
-    viewerSection = document.createElement('section');
-    viewerSection.id = 'viewer';
-    viewerSection.innerHTML = `
-      <button id="backBtn">⬅ Retour au menu</button>
-      <h2 id="platName"></h2>
-      <model-viewer id="modelViewer" ar ar-modes="scene-viewer quick-look webxr" camera-controls auto-rotate></model-viewer>
-    `;
-    document.body.appendChild(viewerSection);
-
-    document.getElementById('backBtn').addEventListener('click', () => {
-      viewerSection.classList.add('hidden');
-      if (currentSelected) currentSelected.classList.remove('selected');
-      document.getElementById('menu-container').scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-
-  viewerSection.classList.remove('hidden');
-  document.getElementById('platName').textContent = plat.nom;
-  const viewer = document.getElementById('modelViewer');
-  viewer.src = plat.model;
-  if (plat.ios_model) viewer.setAttribute('ios-src', plat.ios_model);
-
-  viewerSection.scrollIntoView({ behavior: 'smooth' });
-}
-
-loadMenu();
+  // Section viewer
+  const viewerSection = document.getElementById('viewer');
+  viewerSection.classList.remove('hidden
