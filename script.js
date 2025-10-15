@@ -13,6 +13,7 @@ async function loadMenu() {
     card.innerHTML = `
       <h3>${plat.nom}</h3>
       <p>${plat.description}</p>
+      <div class="price">${plat.prix} DT</div>
       <button onclick="showAR(${plat.id})">Voir en 3D / AR</button>
     `;
     container.appendChild(card);
@@ -24,15 +25,12 @@ async function showAR(id) {
   const plats = await response.json();
   const plat = plats.find(p => p.id === id);
 
-  // Retirer la sélection précédente
   if (currentSelected) currentSelected.classList.remove('selected');
 
-  // Marquer le plat sélectionné
   const cards = document.querySelectorAll('.card');
   currentSelected = Array.from(cards).find(c => c.querySelector('button').onclick.toString().includes(`showAR(${id})`));
   if (currentSelected) currentSelected.classList.add('selected');
 
-  // Créer ou mettre à jour la section viewer
   let viewerSection = document.getElementById('viewer');
   if (!viewerSection) {
     viewerSection = document.createElement('section');
@@ -57,7 +55,6 @@ async function showAR(id) {
   viewer.src = plat.model;
   if (plat.ios_model) viewer.setAttribute('ios-src', plat.ios_model);
 
-  // Scroll vers le viewer
   viewerSection.scrollIntoView({ behavior: 'smooth' });
 }
 
