@@ -3,7 +3,6 @@
     "id": 1,
     "nom": "Salata Mechouia",
     "description": "Salade grillée tunisienne à base de poivrons et tomates.",
-    "image": "images/salata.jpg",
     "model": "models/salata-mechouia.glb",
     "ios_model": "models/salata-mechouia.usdz",
     "ingredients": ["poivrons", "tomates", "oignon", "huile d'olive", "câpres"]
@@ -12,7 +11,6 @@
     "id": 2,
     "nom": "Rouz Asfar",
     "description": "Riz safrané traditionnel, parfumé et léger.",
-    "image": "images/rouz.jpg",
     "model": "models/rouz-asfar.glb",
     "ios_model": "models/rouz-asfar.usdz",
     "ingredients": ["riz", "curcuma", "huile d'olive", "sel"]
@@ -21,7 +19,6 @@
     "id": 3,
     "nom": "Lasagne",
     "description": "Lasagne gratinée à la sauce bolognaise maison.",
-    "image": "images/lasagne.jpg",
     "model": "models/lasagne.glb",
     "ios_model": "models/lasagne.usdz",
     "ingredients": ["pâtes", "viande hachée", "tomates", "béchamel", "fromage"]
@@ -30,7 +27,6 @@
     "id": 4,
     "nom": "Plat mixte",
     "description": "Mélange de grillades tunisiennes et accompagnements.",
-    "image": "images/mixte.jpg",
     "model": "models/plat-mixte.glb",
     "ios_model": "models/plat-mixte.usdz",
     "ingredients": ["poulet", "merguez", "salade", "frites"]
