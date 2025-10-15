@@ -50,4 +50,27 @@ async function showAR(id) {
 
   // Section viewer
   const viewerSection = document.getElementById('viewer');
-  viewerSection.classList.remove('hidden
+  viewerSection.classList.remove('hidden');
+
+  document.getElementById('platName').textContent = plat.nom;
+  const viewer = document.getElementById('modelViewer');
+  viewer.src = plat.model;
+  if (plat.ios_model) viewer.setAttribute('ios-src', plat.ios_model);
+
+  // Scroll fluide
+  viewerSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+loadMenu();
+
+// Retour au menu
+document.getElementById('backBtn').addEventListener('click', () => {
+  const viewerSection = document.getElementById('viewer');
+  viewerSection.classList.add('hidden');
+  if (currentSelected) currentSelected.classList.remove('selected');
+  document.getElementById('menu-container').scrollIntoView({ behavior: 'smooth' });
+
+  // Retirer la sélection dans le menu fixe
+  const allBtns = document.querySelectorAll('#menu-nav button');
+  allBtns.forEach(b => b.classList.remove('active'));
+});
