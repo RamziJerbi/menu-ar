@@ -1,5 +1,7 @@
 // script.js
 
+let currentSelected = null;
+
 async function loadMenu() {
   const response = await fetch('data.json');
   const plats = await response.json();
@@ -22,8 +24,15 @@ async function showAR(id) {
   const plats = await response.json();
   const plat = plats.find(p => p.id === id);
 
-  document.getElementById('menu-container').classList.add('hidden');
+  // Retirer la sélection précédente
+  if (currentSelected) currentSelected.classList.remove('selected');
 
+  // Marquer le plat sélectionné
+  const cards = document.querySelectorAll('.card');
+  currentSelected = Array.from(cards).find(c => c.querySelector('button').onclick.toString().includes(`showAR(${id})`));
+  if (currentSelected) currentSelected.classList.add('selected');
+
+  // Créer ou mettre à jour la section viewer
   let viewerSection = document.getElementById('viewer');
   if (!viewerSection) {
     viewerSection = document.createElement('section');
@@ -37,7 +46,8 @@ async function showAR(id) {
 
     document.getElementById('backBtn').addEventListener('click', () => {
       viewerSection.classList.add('hidden');
-      document.getElementById('menu-container').classList.remove('hidden');
+      if (currentSelected) currentSelected.classList.remove('selected');
+      document.getElementById('menu-container').scrollIntoView({ behavior: 'smooth' });
     });
   }
 
@@ -46,6 +56,9 @@ async function showAR(id) {
   const viewer = document.getElementById('modelViewer');
   viewer.src = plat.model;
   if (plat.ios_model) viewer.setAttribute('ios-src', plat.ios_model);
+
+  // Scroll vers le viewer
+  viewerSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 loadMenu();
