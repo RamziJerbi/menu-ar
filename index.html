@@ -1,58 +1,234 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurant Le Prince</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="script.js" defer></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fff7f0;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #8B0000;
+      color: white;
+      padding: 15px;
+      font-size: 1.4em;
+    }
+
+    img.logo {
+      width: 100px;
+      margin: 15px auto;
+      display: block;
+      border-radius: 10px;
+    }
+
+    h2 {
+      color: #8B0000;
+      margin-top: 20px;
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px;
+    }
+
+    .dish {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      width: 220px;
+      transition: transform 0.2s;
+    }
+
+    .dish:hover {
+      transform: scale(1.03);
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      background: #eee;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #8B0000;
+      margin-top: 5px;
+    }
+
+    .btn {
+      background-color: #8B0000;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #a10000;
+    }
+
+    .admin-section {
+      display: none;
+      margin: 20px auto;
+      max-width: 400px;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input, textarea {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    footer {
+      background: #8B0000;
+      color: white;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 0.9em;
+    }
+
+    a.map-link {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+  </style>
 </head>
 <body>
-  <header>
-    <img src="prince.png" alt="Restaurant Le Prince" id="restaurant-logo"/>
-    <h1>Restaurant Le Prince</h1>
-    <p class="desc">
-      Depuis 1987, la maison Resto Prince est une institution de la gastronomie tunisienne.<br/>
-      Restaurants, pâtisseries, pizzeria, traiteurs, glaceries, salon de thé et club sandwich.
-    </p>
-    <p><strong>Adresse :</strong> 25 Rue Jamel Abdenasser, Tunis, Tunisie<br/>
-       <strong>Tél :</strong> <a href="tel:+21627570531">+216 27 570 531</a></p>
-    <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/"
-       class="map-link" target="_blank">📍 Voir sur Google Maps</a>
-    <button id="login-btn">🔑 Espace propriétaire</button>
-  </header>
 
-  <nav id="menu-nav"></nav>
+  <header>🍴 Restaurant Le Prince</header>
 
-  <main>
-    <section id="menu-container"></section>
+  <img src="prince.png" alt="Restaurant Le Prince" class="logo">
 
-    <section id="viewer" class="hidden">
-      <h2 id="platName"></h2>
-      <model-viewer id="modelViewer" ar ar-modes="webxr scene-viewer quick-look" camera-controls></model-viewer>
-      <button id="backBtn">⬅️ Retour au menu</button>
-    </section>
+  <p><strong>Depuis 1987</strong>, Resto Prince est une institution de la gastronomie tunisienne avec trois points de vente.<br>
+  Restaurants, pâtisseries, pizzerias, traiteurs, glaceries, salon de thé et club sandwichs.<br>
+  Un lieu culinaire au cœur de Tunis pour les fins gourmets !</p>
 
-    <section id="add-plat-section" class="hidden">
-      <h2>Ajouter un nouveau plat</h2>
-      <form id="add-plat-form">
-        <input type="text" id="plat-nom" placeholder="Nom du plat" required>
-        <textarea id="plat-desc" placeholder="Description" required></textarea>
-        <input type="number" id="plat-prix" placeholder="Prix (DT)" required>
-        <input type="text" id="plat-ingredients" placeholder="Ingrédients séparés par des virgules" required>
-        <input type="text" id="plat-model" placeholder="Lien .glb du modèle 3D" required>
-        <input type="text" id="plat-model-ios" placeholder="Lien .usdz du modèle iOS (optionnel)">
-        <button type="submit">Ajouter le plat</button>
-      </form>
-    </section>
-  </main>
+  <div id="login-section">
+    <h3>Choisissez votre accès :</h3>
+    <button class="btn" onclick="login('client')">👨‍🍽️ Client</button>
+    <button class="btn" onclick="showAdminLogin()">🔑 Propriétaire</button>
+  </div>
+
+  <div id="admin-login" style="display:none;">
+    <h3>Connexion propriétaire</h3>
+    <input type="password" id="admin-password" placeholder="Mot de passe">
+    <button class="btn" onclick="login('admin')">Se connecter</button>
+  </div>
+
+  <div class="admin-section" id="admin-section">
+    <h2>Ajouter un plat</h2>
+    <input type="text" id="dish-name" placeholder="Nom du plat">
+    <input type="text" id="dish-price" placeholder="Prix (ex: 8 DT)">
+    <input type="text" id="dish-model" placeholder="Lien .glb du modèle 3D">
+    <button class="btn" onclick="addDish()">Ajouter</button>
+  </div>
+
+  <h2>Notre Menu</h2>
+  <div class="menu" id="menu"></div>
 
   <footer>
-    <p>© 2025 Restaurant Le Prince — Tous droits réservés</p>
-    <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/"
-       target="_blank" class="feedback-link">Laisser un avis sur Google ⭐</a>
+    📍 25 Rue Jamel Abdenasser, Tunis, Tunisie<br>
+    📞 +216 27 570 531<br><br>
+    👉 <a class="map-link" href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Voir sur Google Maps</a><br>
+    💬 <a class="map-link" href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Laissez un avis sur Google</a>
   </footer>
 
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script>
+    const adminPassword = "Prince1987";
+    let userRole = "";
+
+    // Charger le menu depuis le localStorage ou valeurs par défaut
+    let dishes = JSON.parse(localStorage.getItem("dishes")) || [
+      { name: "Salata Mechouia", price: "5 DT", model: "models/salata-mechouia.glb" },
+      { name: "Rouz", price: "7 DT", model: "models/rouz.glb" },
+      { name: "Lasagne", price: "9 DT", model: "models/lasagne.glb" },
+      { name: "Plat Mixte", price: "12 DT", model: "models/plat-mixte.glb" }
+    ];
+
+    function showMenu() {
+      const menu = document.getElementById("menu");
+      menu.innerHTML = "";
+      dishes.forEach(dish => {
+        const div = document.createElement("div");
+        div.className = "dish";
+        div.innerHTML = `
+          <h3>${dish.name}</h3>
+          <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
+          <div class="price">${dish.price}</div>
+        `;
+        menu.appendChild(div);
+      });
+    }
+
+    function login(role) {
+      if (role === "client") {
+        userRole = "client";
+        document.getElementById("login-section").style.display = "none";
+        document.getElementById("menu").style.display = "flex";
+        showMenu();
+      } else if (role === "admin") {
+        const pwd = document.getElementById("admin-password").value;
+        if (pwd === adminPassword) {
+          userRole = "admin";
+          document.getElementById("login-section").style.display = "none";
+          document.getElementById("admin-login").style.display = "none";
+          document.getElementById("admin-section").style.display = "block";
+          showMenu();
+        } else {
+          alert("Mot de passe incorrect !");
+        }
+      }
+    }
+
+    function showAdminLogin() {
+      document.getElementById("admin-login").style.display = "block";
+    }
+
+    function addDish() {
+      if (userRole !== "admin") return alert("Accès refusé");
+      const name = document.getElementById("dish-name").value.trim();
+      const price = document.getElementById("dish-price").value.trim();
+      const model = document.getElementById("dish-model").value.trim();
+
+      if (!name || !price || !model) {
+        alert("Veuillez remplir tous les champs !");
+        return;
+      }
+
+      dishes.push({ name, price, model });
+      localStorage.setItem("dishes", JSON.stringify(dishes)); // sauvegarde automatique
+      showMenu();
+
+      // vider les champs
+      document.getElementById("dish-name").value = "";
+      document.getElementById("dish-price").value = "";
+      document.getElementById("dish-model").value = "";
+    }
+
+    // Charger le menu à l'ouverture
+    window.onload = showMenu;
+  </script>
 </body>
 </html>
