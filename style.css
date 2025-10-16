@@ -86,6 +86,7 @@ header .logo {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeIn 0.6s forwards;
+  position: relative;
 }
 
 @keyframes fadeIn {
@@ -110,14 +111,39 @@ model-viewer {
   font-size: 1.1em;
 }
 
+/* Dish admin buttons */
+.dish .admin-dish-btns {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.admin-dish-btns button {
+  padding: 5px 8px;
+  font-size: 0.8em;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+}
+
+.admin-dish-btns .edit-btn {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.admin-dish-btns .delete-btn {
+  background-color: #d9534f;
+  color: white;
+}
+
 /* Popup */
 .popup.hidden {
-  display: none;       /* complètement invisible */
+  display: none;       
   pointer-events: none; 
 }
 
 .popup {
-  display: flex;        /* seulement quand visible */
+  display: flex;        
   position: fixed;
   top: 0;
   left: 0;
@@ -150,6 +176,30 @@ model-viewer {
   right: 15px;
   font-size: 1.5em;
   cursor: pointer;
+}
+
+/* Admin Panel */
+.admin-panel {
+  background-color: #fff3cd;
+  border: 2px solid #ffeeba;
+  padding: 15px;
+  margin: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.admin-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.admin-panel.hidden {
+  display: none;
 }
 
 /* Feedback */
