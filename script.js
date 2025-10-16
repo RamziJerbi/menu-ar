@@ -33,7 +33,7 @@ function showMenu() {
                      <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
                      <div class="price">${dish.price}</div>`;
 
-    // Si propriétaire, ajouter boutons éditer / supprimer
+    // Boutons admin si propriétaire
     if(ownerAccess === OWNER_PASSWORD){
       const adminBtns = document.createElement("div");
       adminBtns.className = "admin-dish-btns";
@@ -41,7 +41,6 @@ function showMenu() {
                              <button class="delete-btn">Supprimer</button>`;
       div.appendChild(adminBtns);
 
-      // Éditer
       adminBtns.querySelector(".edit-btn").addEventListener("click", (e)=>{
         e.stopPropagation();
         const name = prompt("Nom du plat :", dish.name);
@@ -57,7 +56,6 @@ function showMenu() {
         }
       });
 
-      // Supprimer
       adminBtns.querySelector(".delete-btn").addEventListener("click", (e)=>{
         e.stopPropagation();
         if(confirm(`Supprimer ${dish.name} ?`)){
@@ -100,10 +98,4 @@ addDishBtn?.addEventListener("click", () => {
   const price = prompt("Prix :");
   const ingredients = prompt("Ingrédients :");
   const model = prompt("Lien modèle 3D :");
-  if(name && price && ingredients && model){
-    dishes.push({name, price, ingredients, model});
-    showMenu();
-  }
-});
-
-window.onload = showMenu;
+ 
