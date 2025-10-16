@@ -6,7 +6,7 @@ let dishes = [
 ];
 
 const menuSection = document.getElementById("menu");
-const buttons = document.querySelectorAll(".menu-btn");
+const menuNav = document.getElementById("menu-nav");
 const popup = document.getElementById("popup");
 const popupName = document.getElementById("popup-name");
 const popupIngredients = document.getElementById("popup-ingredients");
@@ -59,6 +59,7 @@ function showMenu() {
           dish.model = model;
           saveDishes();
           showMenu();
+          updateMenuButtons();
         }
       });
 
@@ -68,6 +69,7 @@ function showMenu() {
           dishes.splice(index,1);
           saveDishes();
           showMenu();
+          updateMenuButtons();
         }
       });
     }
@@ -87,16 +89,23 @@ function openPopup(dish) {
 
 closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
 
-// Menu boutons actif
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    buttons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    const index = parseInt(btn.dataset.dish);
-    const dishElement = menuSection.children[index];
-    dishElement.scrollIntoView({ behavior: "smooth", block: "center" });
+// Générer dynamiquement les boutons du menu
+function updateMenuButtons(){
+  menuNav.innerHTML = "";
+  dishes.forEach((dish, index) => {
+    const btn = document.createElement("button");
+    btn.className = "menu-btn";
+    btn.textContent = dish.name;
+    btn.dataset.dish = index;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".menu-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const dishElement = menuSection.children[index];
+      dishElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    menuNav.appendChild(btn);
   });
-});
+}
 
 // Mode propriétaire via bouton
 ownerBtn.classList.remove("hidden");
@@ -122,7 +131,12 @@ addDishBtn?.addEventListener("click", () => {
     dishes.push({name, price, ingredients, model});
     saveDishes();
     showMenu();
+    updateMenuButtons();
   }
 });
 
-window.onload = showMenu;
+// Initialisation
+window.onload = () => {
+  showMenu();
+  updateMenuButtons();
+};
