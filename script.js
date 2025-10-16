@@ -14,12 +14,18 @@ const popupModel = document.getElementById("popup-model");
 const closeBtn = document.querySelector(".close-btn");
 const adminPanel = document.getElementById("admin-panel");
 const addDishBtn = document.getElementById("add-dish-btn");
+const ownerBtn = document.getElementById("owner-btn");
 
-// Mot de passe propriétaire
 const OWNER_PASSWORD = "prince123";
-const ownerAccess = prompt("Entrer le mot de passe propriétaire pour accéder aux options d'administration :");
-if(ownerAccess === OWNER_PASSWORD){
-  adminPanel.classList.remove("hidden");
+
+// Charger depuis localStorage
+if(localStorage.getItem("dishes")){
+  dishes = JSON.parse(localStorage.getItem("dishes"));
+}
+
+// Sauvegarder dans localStorage
+function saveDishes(){
+  localStorage.setItem("dishes", JSON.stringify(dishes));
 }
 
 // Affichage menu
@@ -33,8 +39,7 @@ function showMenu() {
                      <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
                      <div class="price">${dish.price}</div>`;
 
-    // Boutons admin si propriétaire
-    if(ownerAccess === OWNER_PASSWORD){
+    if(adminPanel.classList.contains("active")){
       const adminBtns = document.createElement("div");
       adminBtns.className = "admin-dish-btns";
       adminBtns.innerHTML = `<button class="edit-btn">Éditer</button>
@@ -52,6 +57,7 @@ function showMenu() {
           dish.price = price;
           dish.ingredients = ingredients;
           dish.model = model;
+          saveDishes();
           showMenu();
         }
       });
@@ -60,6 +66,7 @@ function showMenu() {
         e.stopPropagation();
         if(confirm(`Supprimer ${dish.name} ?`)){
           dishes.splice(index,1);
+          saveDishes();
           showMenu();
         }
       });
@@ -70,7 +77,7 @@ function showMenu() {
   });
 }
 
-// Ouvrir popup
+// Popup
 function openPopup(dish) {
   popupName.textContent = dish.name;
   popupIngredients.textContent = "Ingrédients : " + dish.ingredients;
@@ -78,10 +85,9 @@ function openPopup(dish) {
   popup.classList.remove("hidden");
 }
 
-// Fermer popup
 closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
 
-// Scroll vers plat et bouton actif
+// Menu boutons actif
 buttons.forEach(btn => {
   btn.addEventListener("click", () => {
     buttons.forEach(b => b.classList.remove("active"));
@@ -92,6 +98,20 @@ buttons.forEach(btn => {
   });
 });
 
+// Mode propriétaire via bouton
+ownerBtn.classList.remove("hidden");
+ownerBtn.addEventListener("click", () => {
+  const password = prompt("Entrer le mot de passe propriétaire :");
+  if(password === OWNER_PASSWORD){
+    adminPanel.classList.remove("hidden");
+    adminPanel.classList.add("active");
+    ownerBtn.classList.add("hidden");
+    showMenu();
+  } else {
+    alert("Mot de passe incorrect !");
+  }
+});
+
 // Ajouter un plat
 addDishBtn?.addEventListener("click", () => {
   const name = prompt("Nom du plat :");
@@ -100,6 +120,7 @@ addDishBtn?.addEventListener("click", () => {
   const model = prompt("Lien modèle 3D :");
   if(name && price && ingredients && model){
     dishes.push({name, price, ingredients, model});
+    saveDishes();
     showMenu();
   }
 });
