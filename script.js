@@ -9,23 +9,32 @@ let dishes = JSON.parse(localStorage.getItem("dishes")) || [
   { name: "Plat Mixte", price: "12 DT", model: "models/plat-mixte.glb" }
 ];
 
-// Fonction pour afficher le menu
 function showMenu() {
   const menu = document.getElementById("menu");
   menu.innerHTML = "";
-  dishes.forEach(dish => {
+  dishes.forEach((dish, index) => {
     const div = document.createElement("div");
     div.className = "dish";
+
+    let adminControls = "";
+    if (userRole === "admin") {
+      adminControls = `
+        <button class="btn" onclick="editDish(${index})">Modifier</button>
+        <button class="btn" onclick="deleteDish(${index})">Supprimer</button>
+      `;
+    }
+
     div.innerHTML = `
       <h3>${dish.name}</h3>
       <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
       <div class="price">${dish.price}</div>
+      ${adminControls}
     `;
     menu.appendChild(div);
   });
 }
 
-// Fonction de connexion
+// Connexion client / propriétaire
 function login(role) {
   if (role === "client") {
     userRole = "client";
@@ -46,32 +55,50 @@ function login(role) {
   }
 }
 
-// Afficher le champ de login admin
 function showAdminLogin() {
   document.getElementById("admin-login").style.display = "block";
 }
 
-// Ajouter un plat (pour le propriétaire)
+// Ajouter un plat
 function addDish() {
   if (userRole !== "admin") return alert("Accès refusé");
   const name = document.getElementById("dish-name").value.trim();
   const price = document.getElementById("dish-price").value.trim();
   const model = document.getElementById("dish-model").value.trim();
 
-  if (!name || !price || !model) {
-    alert("Veuillez remplir tous les champs !");
-    return;
-  }
-
+  if (!name || !price || !model) return alert("Veuillez remplir tous les champs !");
+  
   dishes.push({ name, price, model });
-  localStorage.setItem("dishes", JSON.stringify(dishes)); // sauvegarde
+  localStorage.setItem("dishes", JSON.stringify(dishes));
   showMenu();
 
-  // vider les champs
   document.getElementById("dish-name").value = "";
   document.getElementById("dish-price").value = "";
   document.getElementById("dish-model").value = "";
 }
 
-// Charger le menu à l’ouverture
+// Supprimer un plat
+function deleteDish(index) {
+  if (!confirm("Voulez-vous vraiment supprimer ce plat ?")) return;
+  dishes.splice(index, 1);
+  localStorage.setItem("dishes", JSON.stringify(dishes));
+  showMenu();
+}
+
+// Modifier un plat
+function editDish(index) {
+  const dish = dishes[index];
+  const newName = prompt("Nom du plat :", dish.name);
+  if (!newName) return;
+  const newPrice = prompt("Prix du plat :", dish.price);
+  if (!newPrice) return;
+  const newModel = prompt("Lien .glb :", dish.model);
+  if (!newModel) return;
+
+  dishes[index] = { name: newName, price: newPrice, model: newModel };
+  localStorage.setItem("dishes", JSON.stringify(dishes));
+  showMenu();
+}
+
+// Affichage initial
 window.onload = showMenu;
