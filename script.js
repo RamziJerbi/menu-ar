@@ -1,14 +1,25 @@
-let currentSelected = null;
+let platsData = [];
+let isAdmin = false;
 
+// Charger les plats
 async function loadMenu() {
   const response = await fetch('data.json');
-  const plats = await response.json();
+  platsData = await response.json();
 
+  const savedPlats = JSON.parse(localStorage.getItem('platsAdded')) || [];
+  platsData = platsData.concat(savedPlats);
+
+  renderMenu();
+}
+
+// Afficher le menu
+function renderMenu() {
   const container = document.getElementById('menu-container');
   const nav = document.getElementById('menu-nav');
+  container.innerHTML = '';
+  nav.innerHTML = '';
 
-  plats.forEach(plat => {
-    // Créer la carte du plat
+  platsData.forEach(plat => {
     const card = document.createElement('div');
     card.classList.add('card');
     card.innerHTML = `
@@ -19,58 +30,72 @@ async function loadMenu() {
     `;
     container.appendChild(card);
 
-    // Créer le bouton du menu fixe
     const menuBtn = document.createElement('button');
     menuBtn.textContent = plat.nom;
-    menuBtn.addEventListener('click', () => {
-      showAR(plat.id);
-      setActiveMenu(menuBtn);
-    });
+    menuBtn.addEventListener('click', () => showAR(plat.id));
     nav.appendChild(menuBtn);
   });
 }
 
-function setActiveMenu(btn) {
-  const allBtns = document.querySelectorAll('#menu-nav button');
-  allBtns.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
+// Afficher modèle 3D
+function showAR(id) {
+  const plat = platsData.find(p => p.id === id);
+  if (!plat) return;
 
-async function showAR(id) {
-  const response = await fetch('data.json');
-  const plats = await response.json();
-  const plat = plats.find(p => p.id === id);
-
-  // Désélectionner la précédente carte
-  if (currentSelected) currentSelected.classList.remove('selected');
-
-  const cards = document.querySelectorAll('.card');
-  currentSelected = Array.from(cards).find(c => c.querySelector('button').onclick.toString().includes(`showAR(${id})`));
-  if (currentSelected) currentSelected.classList.add('selected');
-
-  // Section viewer
-  const viewerSection = document.getElementById('viewer');
-  viewerSection.classList.remove('hidden');
-
+  document.getElementById('viewer').classList.remove('hidden');
   document.getElementById('platName').textContent = plat.nom;
   const viewer = document.getElementById('modelViewer');
   viewer.src = plat.model;
-  if (plat.ios_model) viewer.setAttribute('ios-src', plat.ios_model);
-
-  // Scroll fluide
-  viewerSection.scrollIntoView({ behavior: 'smooth' });
+  viewer.setAttribute('ios-src', plat.ios_model);
+  viewer.scrollIntoView({ behavior: 'smooth' });
 }
 
-loadMenu();
-
-// Retour au menu
+// Retour
 document.getElementById('backBtn').addEventListener('click', () => {
-  const viewerSection = document.getElementById('viewer');
-  viewerSection.classList.add('hidden');
-  if (currentSelected) currentSelected.classList.remove('selected');
+  document.getElementById('viewer').classList.add('hidden');
   document.getElementById('menu-container').scrollIntoView({ behavior: 'smooth' });
-
-  // Retirer la sélection dans le menu fixe
-  const allBtns = document.querySelectorAll('#menu-nav button');
-  allBtns.forEach(b => b.classList.remove('active'));
 });
+
+// Connexion admin
+document.getElementById('loginBtn').addEventListener('click', () => {
+  const pwd = prompt('Entrez le mot de passe administrateur :');
+  if (pwd === 'PrinceAdmin2025') {
+    isAdmin = true;
+    alert('Connexion réussie !');
+    document.getElementById('addPlatBtn').classList.remove('hidden');
+  } else {
+    alert('Mot de passe incorrect.');
+  }
+});
+
+// Afficher le formulaire
+document.getElementById('addPlatBtn').addEventListener('click', () => {
+  document.getElementById('addFormSection').classList.toggle('hidden');
+});
+
+// Ajouter un plat
+document.getElementById('addForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const newPlat = {
+    id: Date.now(),
+    nom: document.getElementById('nom').value,
+    description: document.getElementById('description').value,
+    prix: parseFloat(document.getElementById('prix').value),
+    model: document.getElementById('model').value,
+    ios_model: document.getElementById('ios_model').value,
+    ingredients: document.getElementById('ingredients').value.split(',').map(s => s.trim())
+  };
+
+  const savedPlats = JSON.parse(localStorage.getItem('platsAdded')) || [];
+  savedPlats.push(newPlat);
+  localStorage.setItem('platsAdded', JSON.stringify(savedPlats));
+
+  platsData.push(newPlat);
+  renderMenu();
+
+  document.getElementById('addForm').reset();
+  alert('✅ Plat ajouté avec succès !');
+});
+
+loadMenu();
