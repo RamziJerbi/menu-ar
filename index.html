@@ -15,9 +15,10 @@
     <h1>Restaurant Le Prince</h1>
   </div>
   <p class="tagline">Depuis 1987, un temple de la gastronomie tunisienne</p>
+  <!-- Bouton propriétaire -->
+  <button id="owner-btn" class="admin-btn hidden">Mode Propriétaire</button>
 </header>
 
-<!-- Menu Navigation sticky -->
 <nav id="menu-nav" class="menu-nav sticky">
   <button class="menu-btn" data-dish="0">Salata Mechouia</button>
   <button class="menu-btn" data-dish="1">Rouz</button>
@@ -25,10 +26,8 @@
   <button class="menu-btn" data-dish="3">Plat Mixte</button>
 </nav>
 
-<!-- Menu Dishes -->
 <section class="menu" id="menu"></section>
 
-<!-- Popup ingrédients -->
 <div id="popup" class="popup hidden">
   <div class="popup-content">
     <span class="close-btn">&times;</span>
@@ -38,13 +37,11 @@
   </div>
 </div>
 
-<!-- Admin Panel -->
 <div id="admin-panel" class="admin-panel hidden">
   <h3>Mode Propriétaire</h3>
   <button id="add-dish-btn" class="admin-btn">Ajouter un plat</button>
 </div>
 
-<!-- Feedback -->
 <section class="feedback">
   <h3>Partagez votre expérience</h3>
   <p>Nous serions ravis de connaître votre avis !</p>
