@@ -8,48 +8,41 @@
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
-
+  <!-- Header -->
   <header>
-    <h1>🍴 Restaurant Le Prince</h1>
-    <img src="prince.png" alt="Restaurant Le Prince" class="logo">
+    <div class="header-container">
+      <img src="prince.png" alt="Restaurant Le Prince" class="logo">
+      <h1>Restaurant Le Prince</h1>
+    </div>
+    <p class="tagline">Depuis 1987, un temple de la gastronomie tunisienne</p>
   </header>
 
-  <section class="intro">
-    <p><strong>Depuis 1987</strong>, Resto Prince est une institution de la gastronomie tunisienne à travers trois points de vente.<br>
-    Restaurants, pâtisseries, pizzerias, traiteurs, glaceries, salon de thé et club sandwichs.<br>
-    Un temple pour les fins gourmets et l’art de recevoir !</p>
-  </section>
+  <!-- Menu Navigation -->
+  <nav id="menu-nav" class="menu-nav">
+    <button class="menu-btn" data-dish="0">Salata Mechouia</button>
+    <button class="menu-btn" data-dish="1">Rouz</button>
+    <button class="menu-btn" data-dish="2">Lasagne</button>
+    <button class="menu-btn" data-dish="3">Plat Mixte</button>
+  </nav>
 
-  <section id="login-section" class="login-section">
-    <h3>Choisissez votre accès :</h3>
-    <button class="btn" onclick="login('client')">👨‍🍽️ Client</button>
-    <button class="btn" onclick="showAdminLogin()">🔑 Propriétaire</button>
-  </section>
-
-  <section id="admin-login" class="hidden">
-    <h3>Connexion propriétaire</h3>
-    <input type="password" id="admin-password" placeholder="Mot de passe">
-    <button class="btn" onclick="login('admin')">Se connecter</button>
-  </section>
-
-  <section id="admin-section" class="admin-section hidden">
-    <h2>Ajouter un plat</h2>
-    <input type="text" id="dish-name" placeholder="Nom du plat">
-    <input type="text" id="dish-price" placeholder="Prix (ex: 8 DT)">
-    <input type="text" id="dish-model" placeholder="Lien .glb du modèle 3D">
-    <button class="btn" onclick="addDish()">Ajouter</button>
-  </section>
-
-  <h2>Notre Menu</h2>
+  <!-- Menu Dishes -->
   <section class="menu" id="menu"></section>
 
+  <!-- Feedback -->
+  <section class="feedback">
+    <h3>Partagez votre expérience</h3>
+    <p>Nous serions ravis de connaître votre avis !</p>
+    <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank" class="btn">Laisser un avis</a>
+  </section>
+
+  <!-- Footer -->
   <footer>
     📍 25 Rue Jamel Abdenasser, Tunis, Tunisie<br>
-    📞 +216 27 570 531<br><br>
-    👉 <a class="map-link" href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Voir sur Google Maps</a><br>
-    💬 <a class="map-link" href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Laissez un avis sur Google</a>
+    📞 +216 27 570 531<br>
+    &copy; 2025 Restaurant Le Prince
   </footer>
 
+  <!-- JS -->
   <script src="script.js"></script>
 </body>
 </html>
