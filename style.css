@@ -1,145 +1,141 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #fffaf5;
+  color: #333;
   text-align: center;
 }
 
 header {
-  background-color: #d35400;
-  color: white;
   padding: 20px;
+  background: linear-gradient(135deg, #e67e22, #d35400);
+  color: white;
 }
 
 #restaurant-logo {
-  width: 120px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  width: 100px;
+  border-radius: 50%;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-}
-
-header p {
-  margin: 5px 0 0 0;
-  font-size: 1rem;
-}
-
-#menu-nav {
-  position: sticky;
-  top: 0;
-  background: #e67e22;
+#admin-bar {
   display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  z-index: 10;
+  justify-content: center;
+  gap: 10px;
+  background: #f3f3f3;
+  padding: 10px;
 }
 
-#menu-nav button {
-  background: none;
-  border: none;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-#menu-nav button.active {
-  text-decoration: underline;
-}
-
-#menu-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.3s ease;
-}
-
-.card h3 {
-  margin: 10px 0 5px 0;
-}
-
-.card p {
-  margin: 0 0 10px 0;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.card .price {
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-button.viewBtn {
-  background-color: #d35400;
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-button.viewBtn:hover {
-  background-color: #cf711f;
-}
-
-.card.selected {
-  border: 2px solid #e67e22;
-  box-shadow: 0 4px 12px rgba(230,126,34,0.6);
-}
-
-#contact-feedback {
-  background: #f4f4f4;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 600px;
-  border-radius: 10px;
-}
-
-#contact-feedback a {
-  color: #e67e22;
-  text-decoration: none;
-}
-
-#contact-feedback a:hover {
-  text-decoration: underline;
-}
-
-#viewer {
-  width: 100%;
-  max-width: 800px;
-  margin: 20px auto;
-  text-align: center;
-}
-
-#viewer model-viewer {
-  width: 100%;
-  height: 60vh;
-  border-radius: 10px;
-}
-
-#backBtn {
-  margin-bottom: 10px;
-  background-color: #d35400;
+#admin-bar button {
+  background-color: #e67e22;
   color: white;
   border: none;
   padding: 8px 15px;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 15px;
+}
+
+#admin-bar button:hover {
+  background-color: #cf711f;
+}
+
+#menu-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #fff0e0;
+  padding: 15px;
+}
+
+#menu-nav button {
+  background-color: #d35400;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#menu-nav button.active {
+  background-color: #a84300;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  margin: 20px auto;
+  padding: 15px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  color: #d35400;
+}
+
+.card .price {
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+button.viewBtn {
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#viewer {
+  margin: 20px auto;
+}
+
+model-viewer {
+  width: 100%;
+  height: 400px;
+}
+
+#addFormSection {
+  background: #fff8f2;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 10px;
+  max-width: 600px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#addForm input, #addForm textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+#addForm button {
+  background-color: #d35400;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#contact-feedback {
+  background: #fff0e0;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+footer {
+  background: #e67e22;
+  color: white;
+  padding: 10px;
+  font-size: 14px;
 }
 
 .hidden {
