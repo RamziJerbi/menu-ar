@@ -1,101 +1,98 @@
-let platsData = [];
-let isAdmin = false;
+let plats = [];
+let currentSelected = null;
+const OWNER_PASSWORD = "Prince2025"; // mot de passe simple
 
-// Charger les plats
 async function loadMenu() {
-  const response = await fetch('data.json');
-  platsData = await response.json();
-
-  const savedPlats = JSON.parse(localStorage.getItem('platsAdded')) || [];
-  platsData = platsData.concat(savedPlats);
-
-  renderMenu();
+  try {
+    const res = await fetch("data.json");
+    const json = await res.json();
+    const localPlats = JSON.parse(localStorage.getItem("platsAjoutes")) || [];
+    plats = [...json, ...localPlats];
+    renderMenu();
+  } catch (e) {
+    console.error("Erreur chargement menu", e);
+  }
 }
 
-// Afficher le menu
 function renderMenu() {
-  const container = document.getElementById('menu-container');
-  const nav = document.getElementById('menu-nav');
-  container.innerHTML = '';
-  nav.innerHTML = '';
+  const nav = document.getElementById("menu-nav");
+  const menu = document.getElementById("menu-container");
+  nav.innerHTML = "";
+  menu.innerHTML = "";
 
-  platsData.forEach(plat => {
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.innerHTML = `
-      <h3>${plat.nom}</h3>
-      <p>${plat.description}</p>
-      <div class="price">${plat.prix} DT</div>
-      <button class="viewBtn" onclick="showAR(${plat.id})">Voir en 3D / AR</button>
+  plats.forEach((p, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = p.nom;
+    btn.addEventListener("click", () => selectPlat(p, btn));
+    nav.appendChild(btn);
+
+    const div = document.createElement("div");
+    div.className = "plat-card";
+    div.innerHTML = `
+      <h3>${p.nom}</h3>
+      <p>${p.description}</p>
+      <p><strong>${p.prix} DT</strong></p>
+      <button onclick="viewModel(${index})">Voir en 3D</button>
     `;
-    container.appendChild(card);
-
-    const menuBtn = document.createElement('button');
-    menuBtn.textContent = plat.nom;
-    menuBtn.addEventListener('click', () => showAR(plat.id));
-    nav.appendChild(menuBtn);
+    menu.appendChild(div);
   });
 }
 
-// Afficher modèle 3D
-function showAR(id) {
-  const plat = platsData.find(p => p.id === id);
-  if (!plat) return;
+function selectPlat(plat, button) {
+  const viewerSection = document.getElementById("viewer");
+  viewerSection.classList.remove("hidden");
+  document.getElementById("platName").textContent = plat.nom;
 
-  document.getElementById('viewer').classList.remove('hidden');
-  document.getElementById('platName').textContent = plat.nom;
-  const viewer = document.getElementById('modelViewer');
+  const viewer = document.getElementById("modelViewer");
   viewer.src = plat.model;
-  viewer.setAttribute('ios-src', plat.ios_model);
-  viewer.scrollIntoView({ behavior: 'smooth' });
+  if (plat.ios_model) viewer.setAttribute("ios-src", plat.ios_model);
+
+  viewerSection.scrollIntoView({ behavior: "smooth" });
+
+  document.querySelectorAll("#menu-nav button").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
 }
 
-// Retour
-document.getElementById('backBtn').addEventListener('click', () => {
-  document.getElementById('viewer').classList.add('hidden');
-  document.getElementById('menu-container').scrollIntoView({ behavior: 'smooth' });
+function viewModel(index) {
+  const plat = plats[index];
+  document.getElementById("platName").textContent = plat.nom;
+  const viewer = document.getElementById("modelViewer");
+  viewer.src = plat.model;
+  if (plat.ios_model) viewer.setAttribute("ios-src", plat.ios_model);
+  document.getElementById("viewer").classList.remove("hidden");
+  document.getElementById("viewer").scrollIntoView({ behavior: "smooth" });
+}
+
+document.getElementById("backBtn").addEventListener("click", () => {
+  document.getElementById("viewer").classList.add("hidden");
+  document.querySelectorAll("#menu-nav button").forEach(b => b.classList.remove("active"));
 });
 
-// Connexion admin
-document.getElementById('loginBtn').addEventListener('click', () => {
-  const pwd = prompt('Entrez le mot de passe administrateur :');
-  if (pwd === 'PrinceAdmin2025') {
-    isAdmin = true;
-    alert('Connexion réussie !');
-    document.getElementById('addPlatBtn').classList.remove('hidden');
+document.getElementById("login-btn").addEventListener("click", () => {
+  const pass = prompt("Mot de passe propriétaire :");
+  if (pass === OWNER_PASSWORD) {
+    alert("Bienvenue propriétaire !");
+    document.getElementById("add-plat-section").classList.remove("hidden");
   } else {
-    alert('Mot de passe incorrect.');
+    alert("Mot de passe incorrect !");
   }
 });
 
-// Afficher le formulaire
-document.getElementById('addPlatBtn').addEventListener('click', () => {
-  document.getElementById('addFormSection').classList.toggle('hidden');
-});
-
-// Ajouter un plat
-document.getElementById('addForm').addEventListener('submit', e => {
+document.getElementById("add-plat-form").addEventListener("submit", e => {
   e.preventDefault();
-
   const newPlat = {
-    id: Date.now(),
-    nom: document.getElementById('nom').value,
-    description: document.getElementById('description').value,
-    prix: parseFloat(document.getElementById('prix').value),
-    model: document.getElementById('model').value,
-    ios_model: document.getElementById('ios_model').value,
-    ingredients: document.getElementById('ingredients').value.split(',').map(s => s.trim())
+    nom: document.getElementById("plat-nom").value,
+    description: document.getElementById("plat-desc").value,
+    prix: parseFloat(document.getElementById("plat-prix").value),
+    ingredients: document.getElementById("plat-ingredients").value.split(",").map(i => i.trim()),
+    model: document.getElementById("plat-model").value,
+    ios_model: document.getElementById("plat-model-ios").value
   };
-
-  const savedPlats = JSON.parse(localStorage.getItem('platsAdded')) || [];
-  savedPlats.push(newPlat);
-  localStorage.setItem('platsAdded', JSON.stringify(savedPlats));
-
-  platsData.push(newPlat);
+  const localPlats = JSON.parse(localStorage.getItem("platsAjoutes")) || [];
+  localPlats.push(newPlat);
+  localStorage.setItem("platsAjoutes", JSON.stringify(localPlats));
+  plats.push(newPlat);
   renderMenu();
-
-  document.getElementById('addForm').reset();
-  alert('✅ Plat ajouté avec succès !');
+  alert("Plat ajouté avec succès !");
+  e.target.reset();
 });
-
-loadMenu();
