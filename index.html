@@ -4,11 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Restaurant Le Prince – Menu 3D & AR</title>
-
-  <!-- Style principal -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Composant Model Viewer pour 3D / AR -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
@@ -19,28 +15,41 @@
     <p>Depuis 1987, la maison resto prince est une institution de la gastronomie nationale.</p>
   </header>
 
-  <nav id="menu-nav">
-    <!-- Menu fixe -->
-  </nav>
+  <div id="admin-bar">
+    <button id="loginBtn">🔐 Connexion admin</button>
+    <button id="addPlatBtn" class="hidden">➕ Ajouter un plat</button>
+  </div>
 
-  <main id="menu-container">
-    <!-- Les plats seront ajoutés dynamiquement via script.js -->
-  </main>
+  <nav id="menu-nav"></nav>
+  <main id="menu-container"></main>
 
-  <!-- Section viewer 3D/AR -->
+  <!-- Viewer 3D -->
   <section id="viewer" class="hidden">
     <button id="backBtn">⬅ Retour au menu</button>
     <h2 id="platName"></h2>
     <model-viewer id="modelViewer" ar ar-modes="scene-viewer quick-look webxr" camera-controls auto-rotate></model-viewer>
   </section>
 
-  <!-- Section contact et feedback -->
+  <!-- Formulaire ajout plat -->
+  <section id="addFormSection" class="hidden">
+    <h2>Ajouter un nouveau plat</h2>
+    <form id="addForm">
+      <input type="text" id="nom" placeholder="Nom du plat" required>
+      <textarea id="description" placeholder="Description" required></textarea>
+      <input type="number" id="prix" placeholder="Prix (DT)" required>
+      <input type="text" id="model" placeholder="URL modèle .glb" required>
+      <input type="text" id="ios_model" placeholder="URL modèle .usdz" required>
+      <input type="text" id="ingredients" placeholder="Ingrédients séparés par virgule" required>
+      <button type="submit">✅ Ajouter</button>
+    </form>
+  </section>
+
   <section id="contact-feedback">
     <h2>Nous contacter & Laisser un avis</h2>
     <p>📍 Adresse : 25 Rue Jamel Abdenasser, Tunis, Tunisie</p>
-    <p>📞 Téléphone : <a href="tel:+21627570531">+21627570531</a></p>
-    <p>🗺️ <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/data=!4m8!3m7!1s0x12fd357468e22417:0xaa40488fca9924ef!8m2!3d36.7971962!4d10.1787722!9m1!1b1!16s%2Fg%2F11nfrprww_?entry=ttu&g_ep=EgoyMDI1MTAxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">Voir sur Google Maps</a></p>
-    <p>💬 <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/data=!4m8!3m7!1s0x12fd357468e22417:0xaa40488fca9924ef!8m2!3d36.7971962!4d10.1787722!9m1!1b1!16s%2Fg%2F11nfrprww_?entry=ttu&g_ep=EgoyMDI1MTAxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank">Laisser un feedback ici</a></p>
+    <p>📞 <a href="tel:+21627570531">+21627570531</a></p>
+    <p>🗺️ <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Voir sur Google Maps</a></p>
+    <p>💬 <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Laisser un feedback ici</a></p>
   </section>
 
   <footer>
