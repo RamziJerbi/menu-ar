@@ -3,62 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Restaurant Le Prince – Menu 3D & AR</title>
+  <title>Restaurant Le Prince</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
-
   <header>
     <img src="prince.png" alt="Restaurant Le Prince" id="restaurant-logo"/>
     <h1>Restaurant Le Prince</h1>
-    <p>Depuis 1987, la maison Resto Prince est une institution de la gastronomie tunisienne, regroupant restaurants, pâtisseries, pizzerias et salons de thé.</p>
+    <p class="desc">
+      Depuis 1987, la maison Resto Prince est une institution de la gastronomie tunisienne.<br/>
+      Restaurants, pâtisseries, pizzeria, traiteurs, glaceries, salon de thé et club sandwich.
+    </p>
+    <p><strong>Adresse :</strong> 25 Rue Jamel Abdenasser, Tunis, Tunisie<br/>
+       <strong>Tél :</strong> <a href="tel:+21627570531">+216 27 570 531</a></p>
+    <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/"
+       class="map-link" target="_blank">📍 Voir sur Google Maps</a>
+    <button id="login-btn">🔑 Espace propriétaire</button>
   </header>
 
-  <!-- Barre admin -->
-  <div id="admin-bar">
-    <button id="loginBtn">🔐 Connexion admin</button>
-    <button id="addPlatBtn" class="hidden">➕ Ajouter un plat</button>
-  </div>
-
-  <!-- Menu -->
   <nav id="menu-nav"></nav>
-  <main id="menu-container"></main>
 
-  <!-- Viewer 3D -->
-  <section id="viewer" class="hidden">
-    <button id="backBtn">⬅ Retour au menu</button>
-    <h2 id="platName"></h2>
-    <model-viewer id="modelViewer" ar ar-modes="scene-viewer quick-look webxr" camera-controls auto-rotate></model-viewer>
-  </section>
+  <main>
+    <section id="menu-container"></section>
 
-  <!-- Formulaire d'ajout de plat -->
-  <section id="addFormSection" class="hidden">
-    <h2>Ajouter un nouveau plat</h2>
-    <form id="addForm">
-      <input type="text" id="nom" placeholder="Nom du plat" required>
-      <textarea id="description" placeholder="Description" required></textarea>
-      <input type="number" id="prix" placeholder="Prix (DT)" required>
-      <input type="text" id="model" placeholder="URL modèle .glb" required>
-      <input type="text" id="ios_model" placeholder="URL modèle .usdz" required>
-      <input type="text" id="ingredients" placeholder="Ingrédients séparés par virgule" required>
-      <button type="submit">✅ Ajouter</button>
-    </form>
-  </section>
+    <section id="viewer" class="hidden">
+      <h2 id="platName"></h2>
+      <model-viewer id="modelViewer" ar ar-modes="webxr scene-viewer quick-look" camera-controls></model-viewer>
+      <button id="backBtn">⬅️ Retour au menu</button>
+    </section>
 
-  <!-- Contact et Feedback -->
-  <section id="contact-feedback">
-    <h2>📍 Nous contacter & Laisser un avis</h2>
-    <p>🏠 Adresse : 25 Rue Jamel Abdenasser, Tunis, Tunisie</p>
-    <p>📞 <a href="tel:+21627570531">+216 27 570 531</a></p>
-    <p>🗺️ <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Voir sur Google Maps</a></p>
-    <p>💬 <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank">Laisser un feedback ici</a></p>
-  </section>
+    <section id="add-plat-section" class="hidden">
+      <h2>Ajouter un nouveau plat</h2>
+      <form id="add-plat-form">
+        <input type="text" id="plat-nom" placeholder="Nom du plat" required>
+        <textarea id="plat-desc" placeholder="Description" required></textarea>
+        <input type="number" id="plat-prix" placeholder="Prix (DT)" required>
+        <input type="text" id="plat-ingredients" placeholder="Ingrédients séparés par des virgules" required>
+        <input type="text" id="plat-model" placeholder="Lien .glb du modèle 3D" required>
+        <input type="text" id="plat-model-ios" placeholder="Lien .usdz du modèle iOS (optionnel)">
+        <button type="submit">Ajouter le plat</button>
+      </form>
+    </section>
+  </main>
 
   <footer>
-    <p>© 2025 Restaurant Le Prince – Expérience 3D & Réalité Augmentée</p>
+    <p>© 2025 Restaurant Le Prince — Tous droits réservés</p>
+    <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z/"
+       target="_blank" class="feedback-link">Laisser un avis sur Google ⭐</a>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </body>
 </html>
