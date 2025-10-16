@@ -41,6 +41,9 @@ h2 {
   padding: 15px;
   width: 220px;
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dish:hover {
@@ -65,9 +68,11 @@ model-viewer {
   color: white;
   border: none;
   border-radius: 10px;
-  padding: 10px 15px;
+  padding: 8px 12px;
   cursor: pointer;
-  margin-top: 10px;
+  margin: 5px 0;
+  font-size: 0.9em;
+  width: 100px;
 }
 
 .btn:hover {
@@ -113,5 +118,9 @@ a.map-link {
   .menu {
     flex-direction: column;
     align-items: center;
+  }
+
+  .dish {
+    width: 90%;
   }
 }
