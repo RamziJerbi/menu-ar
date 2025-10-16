@@ -19,7 +19,7 @@ function showMenu() {
   dishes.forEach((dish, index) => {
     const div = document.createElement("div");
     div.className = "dish";
-    div.style.animationDelay = `${index * 0.1}s`; // effet fade-in progressif
+    div.style.animationDelay = `${index * 0.1}s`;
     div.innerHTML = `<h3>${dish.name}</h3>
                      <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
                      <div class="price">${dish.price}</div>`;
@@ -37,9 +37,7 @@ function openPopup(dish) {
 }
 
 // Fermer popup
-closeBtn.addEventListener("click", () => {
-  popup.classList.add("hidden");
-});
+closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
 
 // Scroll vers plat et bouton actif
 buttons.forEach(btn => {
