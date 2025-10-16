@@ -3,46 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restaurant Le Prince</title>
+  <title>Restaurant Le Prince - Premium</title>
   <link rel="stylesheet" href="style.css">
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="header-container">
-      <img src="prince.png" alt="Restaurant Le Prince" class="logo">
-      <h1>Restaurant Le Prince</h1>
-    </div>
-    <p class="tagline">Depuis 1987, un temple de la gastronomie tunisienne</p>
-  </header>
 
-  <!-- Menu Navigation -->
-  <nav id="menu-nav" class="menu-nav">
-    <button class="menu-btn" data-dish="0">Salata Mechouia</button>
-    <button class="menu-btn" data-dish="1">Rouz</button>
-    <button class="menu-btn" data-dish="2">Lasagne</button>
-    <button class="menu-btn" data-dish="3">Plat Mixte</button>
-  </nav>
+<header>
+  <div class="header-container">
+    <img src="prince.png" alt="Restaurant Le Prince" class="logo">
+    <h1>Restaurant Le Prince</h1>
+  </div>
+  <p class="tagline">Depuis 1987, un temple de la gastronomie tunisienne</p>
+</header>
 
-  <!-- Menu Dishes -->
-  <section class="menu" id="menu"></section>
+<!-- Menu Navigation sticky -->
+<nav id="menu-nav" class="menu-nav sticky">
+  <button class="menu-btn" data-dish="0">Salata Mechouia</button>
+  <button class="menu-btn" data-dish="1">Rouz</button>
+  <button class="menu-btn" data-dish="2">Lasagne</button>
+  <button class="menu-btn" data-dish="3">Plat Mixte</button>
+</nav>
 
-  <!-- Feedback -->
-  <section class="feedback">
-    <h3>Partagez votre expérience</h3>
-    <p>Nous serions ravis de connaître votre avis !</p>
-    <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank" class="btn">Laisser un avis</a>
-  </section>
+<!-- Menu Dishes -->
+<section class="menu" id="menu"></section>
 
-  <!-- Footer -->
-  <footer>
-    📍 25 Rue Jamel Abdenasser, Tunis, Tunisie<br>
-    📞 +216 27 570 531<br>
-    &copy; 2025 Restaurant Le Prince
-  </footer>
+<!-- Popup ingrédients -->
+<div id="popup" class="popup hidden">
+  <div class="popup-content">
+    <span class="close-btn">&times;</span>
+    <h3 id="popup-name"></h3>
+    <p id="popup-ingredients"></p>
+    <model-viewer id="popup-model" camera-controls auto-rotate ar></model-viewer>
+  </div>
+</div>
 
-  <!-- JS -->
-  <script src="script.js"></script>
+<!-- Feedback -->
+<section class="feedback">
+  <h3>Partagez votre expérience</h3>
+  <p>Nous serions ravis de connaître votre avis !</p>
+  <a href="https://www.google.com/maps/place/Restaurant+le+Prince+2/@36.7972005,10.1761973,17z" target="_blank" class="btn">Laisser un avis</a>
+</section>
+
+<footer>
+  📍 25 Rue Jamel Abdenasser, Tunis, Tunisie<br>
+  📞 +216 27 570 531<br>
+  &copy; 2025 Restaurant Le Prince
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
