@@ -1,34 +1,22 @@
 [
   {
-    "nom": "Salata Mechouia",
-    "description": "Salade grillée tunisienne à base de poivrons et tomates.",
-    "model": "models/salata-mechouia.glb",
-    "ios_model": "models/salata-mechouia.usdz",
-    "ingredients": ["poivrons", "tomates", "oignon", "huile d'olive", "câpres"],
-    "prix": 5
+    "name": "Salata Mechouia",
+    "price": "5 DT",
+    "model": "models/salata-mechouia.glb"
   },
   {
-    "nom": "Rouz Asfar",
-    "description": "Riz safrané traditionnel, parfumé et léger.",
-    "model": "models/rouz-asfar.glb",
-    "ios_model": "models/rouz-asfar.usdz",
-    "ingredients": ["riz", "curcuma", "huile d'olive", "sel"],
-    "prix": 7
+    "name": "Rouz",
+    "price": "7 DT",
+    "model": "models/rouz.glb"
   },
   {
-    "nom": "Lasagne",
-    "description": "Lasagne gratinée à la sauce bolognaise maison.",
-    "model": "models/lasagne.glb",
-    "ios_model": "models/lasagne.usdz",
-    "ingredients": ["pâtes", "viande hachée", "tomates", "béchamel", "fromage"],
-    "prix": 9
+    "name": "Lasagne",
+    "price": "9 DT",
+    "model": "models/lasagne.glb"
   },
   {
-    "nom": "Plat mixte",
-    "description": "Mélange de grillades tunisiennes et accompagnements.",
-    "model": "models/plat-mixte.glb",
-    "ios_model": "models/plat-mixte.usdz",
-    "ingredients": ["poulet", "merguez", "salade", "frites"],
-    "prix": 12
+    "name": "Plat Mixte",
+    "price": "12 DT",
+    "model": "models/plat-mixte.glb"
   }
 ]
