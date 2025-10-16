@@ -38,7 +38,7 @@ header .logo {
   z-index: 100;
   padding: 10px 0;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  pointer-events: auto; /* autorise clics */
+  pointer-events: auto;
 }
 
 .menu-nav {
@@ -70,7 +70,7 @@ header .logo {
   justify-content: center;
   gap: 20px;
   padding: 20px 10px 40px 10px;
-  margin-top: 10px; /* espace pour sticky menu */
+  margin-top: 10px;
 }
 
 .dish {
@@ -100,7 +100,7 @@ model-viewer {
   height: 250px;
   border-radius: 12px;
   background-color: #eee;
-  pointer-events: auto; /* permet interaction */
+  pointer-events: auto;
 }
 
 .price {
@@ -112,12 +112,12 @@ model-viewer {
 
 /* Popup */
 .popup.hidden {
-  display: none; /* popup complètement invisible par défaut */
-  pointer-events: none;
+  display: none;       /* complètement invisible */
+  pointer-events: none; 
 }
 
 .popup {
-  display: flex; /* affichage seulement si visible */
+  display: flex;        /* seulement quand visible */
   position: fixed;
   top: 0;
   left: 0;
