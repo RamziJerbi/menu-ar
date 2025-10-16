@@ -1,118 +1,117 @@
 body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  background: #fefefe;
+  font-family: "Poppins", sans-serif;
+  background: #fff7f0;
   color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 header {
-  text-align: center;
-  background: #fff3e6;
-  padding: 1.5em;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-#restaurant-logo {
-  width: 80px;
-  border-radius: 50%;
-}
-
-h1 { color: #b22222; }
-
-.map-link, .feedback-link {
-  display: inline-block;
-  margin: 8px;
-  text-decoration: none;
-  color: #fff;
-  background: #b22222;
-  padding: 8px 14px;
-  border-radius: 8px;
-}
-
-#login-btn {
-  margin-top: 8px;
-  background: #444;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-#menu-nav {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  border-bottom: 2px solid #eee;
-  z-index: 10;
-}
-
-#menu-nav button {
-  background: #eee;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#menu-nav button.active {
-  background: #b22222;
+  background-color: #8B0000;
   color: white;
-}
-
-#menu-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.plat-card {
-  background: #fff;
   padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
+  font-size: 1.4em;
 }
 
-#viewer {
-  text-align: center;
-  padding: 20px;
+img.logo {
+  width: 100px;
+  margin: 15px auto;
+  display: block;
+  border-radius: 10px;
 }
 
-#viewer.hidden, #add-plat-section.hidden {
-  display: none;
+h2 {
+  color: #8B0000;
+  margin-top: 20px;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px;
+}
+
+.dish {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 220px;
+  transition: transform 0.2s;
+}
+
+.dish:hover {
+  transform: scale(1.03);
 }
 
 model-viewer {
   width: 100%;
-  height: 300px;
-  margin: 10px 0;
+  height: 200px;
+  border-radius: 10px;
+  background: #eee;
 }
 
-#add-plat-section {
-  padding: 20px;
-  background: #fafafa;
-  border-top: 2px solid #ddd;
+.price {
+  font-weight: bold;
+  color: #8B0000;
+  margin-top: 5px;
 }
 
-#add-plat-form input, #add-plat-form textarea {
-  width: 100%;
-  margin: 6px 0;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-#add-plat-form button {
-  background: #b22222;
+.btn {
+  background-color: #8B0000;
   color: white;
   border: none;
-  padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 10px 15px;
   cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #a10000;
+}
+
+.admin-section {
+  display: none;
+  margin: 20px auto;
+  max-width: 400px;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+footer {
+  background: #8B0000;
+  color: white;
+  padding: 20px;
+  margin-top: 30px;
+  font-size: 0.9em;
+}
+
+a.map-link {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .menu {
+    flex-direction: column;
+    align-items: center;
+  }
 }
