@@ -98,4 +98,10 @@ addDishBtn?.addEventListener("click", () => {
   const price = prompt("Prix :");
   const ingredients = prompt("Ingrédients :");
   const model = prompt("Lien modèle 3D :");
- 
+  if(name && price && ingredients && model){
+    dishes.push({name, price, ingredients, model});
+    showMenu();
+  }
+});
+
+window.onload = showMenu;
