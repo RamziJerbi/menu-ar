@@ -70,7 +70,7 @@ header .logo {
   justify-content: center;
   gap: 20px;
   padding: 20px 10px 40px 10px;
-  margin-top: 10px; /* espace pour le sticky menu */
+  margin-top: 10px; /* espace pour sticky menu */
 }
 
 .dish {
@@ -100,6 +100,7 @@ model-viewer {
   height: 250px;
   border-radius: 12px;
   background-color: #eee;
+  pointer-events: auto; /* permet interaction */
 }
 
 .price {
@@ -110,16 +111,22 @@ model-viewer {
 }
 
 /* Popup */
+.popup.hidden {
+  display: none; /* popup complètement invisible par défaut */
+  pointer-events: none;
+}
+
 .popup {
+  display: flex; /* affichage seulement si visible */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.7);
-  display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: auto;
 }
 
 .popup-content {
