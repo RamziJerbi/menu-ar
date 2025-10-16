@@ -19,40 +19,51 @@ const ownerBtn = document.getElementById("owner-btn");
 const OWNER_PASSWORD = "prince123";
 
 // Charger depuis localStorage
-if(localStorage.getItem("dishes")){
+if (localStorage.getItem("dishes")) {
   dishes = JSON.parse(localStorage.getItem("dishes"));
+  // S'assurer que tous les plats ont la clé ingredients
+  dishes = dishes.map(d => ({
+    name: d.name || "Plat sans nom",
+    price: d.price || "0 DT",
+    model: d.model || "",
+    ingredients: d.ingredients || "Ingrédients non spécifiés"
+  }));
 }
 
 // Sauvegarder dans localStorage
-function saveDishes(){
+function saveDishes() {
   localStorage.setItem("dishes", JSON.stringify(dishes));
 }
 
-// Affichage menu
+// Afficher le menu
 function showMenu() {
   menuSection.innerHTML = "";
   dishes.forEach((dish, index) => {
     const div = document.createElement("div");
     div.className = "dish";
     div.style.animationDelay = `${index * 0.1}s`;
-    div.innerHTML = `<h3>${dish.name}</h3>
-                     <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
-                     <div class="price">${dish.price}</div>`;
+    div.innerHTML = `
+      <h3>${dish.name}</h3>
+      <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
+      <div class="price">${dish.price}</div>
+    `;
 
-    if(adminPanel.classList.contains("active")){
+    if (adminPanel.classList.contains("active")) {
       const adminBtns = document.createElement("div");
       adminBtns.className = "admin-dish-btns";
-      adminBtns.innerHTML = `<button class="edit-btn">Éditer</button>
-                             <button class="delete-btn">Supprimer</button>`;
+      adminBtns.innerHTML = `
+        <button class="edit-btn">Éditer</button>
+        <button class="delete-btn">Supprimer</button>
+      `;
       div.appendChild(adminBtns);
 
-      adminBtns.querySelector(".edit-btn").addEventListener("click", (e)=>{
+      adminBtns.querySelector(".edit-btn").addEventListener("click", (e) => {
         e.stopPropagation();
         const name = prompt("Nom du plat :", dish.name);
         const price = prompt("Prix :", dish.price);
         const ingredients = prompt("Ingrédients :", dish.ingredients);
         const model = prompt("Lien modèle 3D :", dish.model);
-        if(name && price && ingredients && model){
+        if (name && price && ingredients && model) {
           dish.name = name;
           dish.price = price;
           dish.ingredients = ingredients;
@@ -63,10 +74,10 @@ function showMenu() {
         }
       });
 
-      adminBtns.querySelector(".delete-btn").addEventListener("click", (e)=>{
+      adminBtns.querySelector(".delete-btn").addEventListener("click", (e) => {
         e.stopPropagation();
-        if(confirm(`Supprimer ${dish.name} ?`)){
-          dishes.splice(index,1);
+        if (confirm(`Supprimer ${dish.name} ?`)) {
+          dishes.splice(index, 1);
           saveDishes();
           showMenu();
           updateMenuButtons();
@@ -79,18 +90,18 @@ function showMenu() {
   });
 }
 
-// Popup
+// Popup d'affichage
 function openPopup(dish) {
   popupName.textContent = dish.name;
-  popupIngredients.textContent = "Ingrédients : " + dish.ingredients;
+  popupIngredients.textContent = "Ingrédients : " + (dish.ingredients || "Non spécifiés");
   popupModel.src = dish.model;
   popup.classList.remove("hidden");
 }
 
 closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
 
-// Générer dynamiquement les boutons du menu
-function updateMenuButtons(){
+// Générer les boutons dynamiques
+function updateMenuButtons() {
   menuNav.innerHTML = "";
   dishes.forEach((dish, index) => {
     const btn = document.createElement("button");
@@ -107,11 +118,11 @@ function updateMenuButtons(){
   });
 }
 
-// Mode propriétaire via bouton
+// Bouton propriétaire
 ownerBtn.classList.remove("hidden");
 ownerBtn.addEventListener("click", () => {
   const password = prompt("Entrer le mot de passe propriétaire :");
-  if(password === OWNER_PASSWORD){
+  if (password === OWNER_PASSWORD) {
     adminPanel.classList.remove("hidden");
     adminPanel.classList.add("active");
     ownerBtn.classList.add("hidden");
@@ -127,8 +138,8 @@ addDishBtn?.addEventListener("click", () => {
   const price = prompt("Prix :");
   const ingredients = prompt("Ingrédients :");
   const model = prompt("Lien modèle 3D :");
-  if(name && price && ingredients && model){
-    dishes.push({name, price, ingredients, model});
+  if (name && price && ingredients && model) {
+    dishes.push({ name, price, ingredients, model });
     saveDishes();
     showMenu();
     updateMenuButtons();
