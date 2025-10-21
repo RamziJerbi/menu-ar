@@ -1,10 +1,8 @@
-let dishes = [
-  { name: "Salata Mechouia", price: "5 DT", model: "models/salata-mechouia.glb", ingredients: "Tomates, poivrons, oignons, huile d’olive" },
-  { name: "Rouz", price: "7 DT", model: "models/rouz.glb", ingredients: "Riz, légumes, épices" },
-  { name: "Lasagne", price: "9 DT", model: "models/lasagne.glb", ingredients: "Pâtes, sauce tomate, fromage, viande" },
-  { name: "Plat Mixte", price: "12 DT", model: "models/plat-mixte.glb", ingredients: "Salata Mechouia, Rouz, Viande, Légumes" }
-];
+// ====== CONFIG ======
+const API_URL = "https://script.google.com/macros/s/AKfycbybgjj0R1EDpKeGqYZzRpSbYwo35BwCLly385wT3Uu8MkRsGsGpKViHyfA-cEVXeK98/exec"; // <--- ton URL Apps Script (doGet/doPost)
+const WRITE_KEY = "PrinceSecret2025"; // <--- doit être le même que SECRET_KEY côté Apps Script
 
+// DOM references
 const menuSection = document.getElementById("menu");
 const menuNav = document.getElementById("menu-nav");
 const popup = document.getElementById("popup");
@@ -16,91 +14,112 @@ const adminPanel = document.getElementById("admin-panel");
 const addDishBtn = document.getElementById("add-dish-btn");
 const ownerBtn = document.getElementById("owner-btn");
 
-const OWNER_PASSWORD = "prince123";
+let dishes = []; // rempli depuis le serveur
 
-// Charger depuis localStorage
-if (localStorage.getItem("dishes")) {
-  dishes = JSON.parse(localStorage.getItem("dishes"));
-  // S'assurer que tous les plats ont la clé ingredients
-  dishes = dishes.map(d => ({
-    name: d.name || "Plat sans nom",
-    price: d.price || "0 DT",
-    model: d.model || "",
-    ingredients: d.ingredients || "Ingrédients non spécifiés"
-  }));
+// Helper: fetch list (GET)
+async function loadDishesFromServer() {
+  try {
+    const res = await fetch(API_URL);
+    const json = await res.json();
+    if (json.status === "ok") {
+      dishes = json.items || [];
+      // ensure fields
+      dishes = dishes.map(d => ({
+        id: d.id + "",
+        name: d.name || "",
+        price: d.price || "",
+        model: d.model || "",
+        ingredients: d.ingredients || ""
+      }));
+      renderAll();
+    } else {
+      console.error("API GET error", json);
+    }
+  } catch (err) {
+    console.error("Erreur fetch", err);
+  }
 }
 
-// Sauvegarder dans localStorage
-function saveDishes() {
-  localStorage.setItem("dishes", JSON.stringify(dishes));
+// Helper: POST to server for add/edit/delete
+async function postToServer(payload) {
+  try {
+    payload.key = WRITE_KEY;
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    return json;
+  } catch (err) {
+    console.error("Erreur POST", err);
+    return { status:"error", message: err.message };
+  }
 }
 
-// Afficher le menu
-function showMenu() {
+// Render UI (menu + buttons)
+function renderAll() {
+  renderMenu();
+  updateMenuButtons();
+}
+
+// Render dishes grid
+function renderMenu() {
   menuSection.innerHTML = "";
   dishes.forEach((dish, index) => {
     const div = document.createElement("div");
     div.className = "dish";
-    div.style.animationDelay = `${index * 0.1}s`;
+    div.style.animationDelay = `${index * 0.08}s`;
     div.innerHTML = `
-      <h3>${dish.name}</h3>
-      <model-viewer src="${dish.model}" camera-controls auto-rotate ar></model-viewer>
-      <div class="price">${dish.price}</div>
+      <h3>${escapeHtml(dish.name)}</h3>
+      <model-viewer src="${escapeAttr(dish.model)}" camera-controls auto-rotate ar></model-viewer>
+      <div class="price">${escapeHtml(dish.price)}</div>
     `;
-
+    // si admin visible, on ajoutera les boutons (adminPanel possède classe 'active' quand on est admin)
     if (adminPanel.classList.contains("active")) {
       const adminBtns = document.createElement("div");
       adminBtns.className = "admin-dish-btns";
-      adminBtns.innerHTML = `
-        <button class="edit-btn">Éditer</button>
-        <button class="delete-btn">Supprimer</button>
-      `;
+      adminBtns.innerHTML = `<button class="edit-btn">Éditer</button><button class="delete-btn">Supprimer</button>`;
+      // edit
+      adminBtns.querySelector(".edit-btn").addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const name = prompt("Nom du plat :", dish.name) || dish.name;
+        const price = prompt("Prix :", dish.price) || dish.price;
+        const ingredients = prompt("Ingrédients :", dish.ingredients) || dish.ingredients;
+        const model = prompt("Lien modèle 3D :", dish.model) || dish.model;
+        const payload = { action: "edit", item: { id: dish.id, name, price, model, ingredients } };
+        const res = await postToServer(payload);
+        if (res.status === "ok") {
+          await loadDishesFromServer();
+        } else alert("Erreur édition : " + (res.message||""));
+      });
+      // delete
+      adminBtns.querySelector(".delete-btn").addEventListener("click", async (e) => {
+        e.stopPropagation();
+        if (!confirm(`Supprimer ${dish.name} ?`)) return;
+        const res = await postToServer({ action: "delete", id: dish.id });
+        if (res.status === "ok") await loadDishesFromServer();
+        else alert("Erreur suppression : " + (res.message||""));
+      });
       div.appendChild(adminBtns);
-
-      adminBtns.querySelector(".edit-btn").addEventListener("click", (e) => {
-        e.stopPropagation();
-        const name = prompt("Nom du plat :", dish.name);
-        const price = prompt("Prix :", dish.price);
-        const ingredients = prompt("Ingrédients :", dish.ingredients);
-        const model = prompt("Lien modèle 3D :", dish.model);
-        if (name && price && ingredients && model) {
-          dish.name = name;
-          dish.price = price;
-          dish.ingredients = ingredients;
-          dish.model = model;
-          saveDishes();
-          showMenu();
-          updateMenuButtons();
-        }
-      });
-
-      adminBtns.querySelector(".delete-btn").addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (confirm(`Supprimer ${dish.name} ?`)) {
-          dishes.splice(index, 1);
-          saveDishes();
-          showMenu();
-          updateMenuButtons();
-        }
-      });
     }
 
+    // ouvrir popup
     div.addEventListener("click", () => openPopup(dish));
     menuSection.appendChild(div);
   });
 }
 
-// Popup d'affichage
+// Popup open/close
 function openPopup(dish) {
   popupName.textContent = dish.name;
   popupIngredients.textContent = "Ingrédients : " + (dish.ingredients || "Non spécifiés");
-  popupModel.src = dish.model;
+  popupModel.src = dish.model || "";
   popup.classList.remove("hidden");
 }
-
 closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
 
-// Générer les boutons dynamiques
+// Dynamic menu buttons
 function updateMenuButtons() {
   menuNav.innerHTML = "";
   dishes.forEach((dish, index) => {
@@ -111,43 +130,45 @@ function updateMenuButtons() {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".menu-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      const dishElement = menuSection.children[index];
-      dishElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      const el = menuSection.children[index];
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
     });
     menuNav.appendChild(btn);
   });
 }
 
-// Bouton propriétaire
+// Owner button behaviour (no prompt on load)
 ownerBtn.classList.remove("hidden");
-ownerBtn.addEventListener("click", () => {
+ownerBtn.addEventListener("click", async () => {
   const password = prompt("Entrer le mot de passe propriétaire :");
-  if (password === OWNER_PASSWORD) {
+  if (password === WRITE_KEY) {
     adminPanel.classList.remove("hidden");
     adminPanel.classList.add("active");
     ownerBtn.classList.add("hidden");
-    showMenu();
+    await loadDishesFromServer(); // reload to show admin buttons
   } else {
     alert("Mot de passe incorrect !");
   }
 });
 
-// Ajouter un plat
-addDishBtn?.addEventListener("click", () => {
+// Add dish (calls server)
+addDishBtn?.addEventListener("click", async () => {
   const name = prompt("Nom du plat :");
+  if (!name) return;
   const price = prompt("Prix :");
   const ingredients = prompt("Ingrédients :");
   const model = prompt("Lien modèle 3D :");
-  if (name && price && ingredients && model) {
-    dishes.push({ name, price, ingredients, model });
-    saveDishes();
-    showMenu();
-    updateMenuButtons();
-  }
+  if (!model) { alert("Il faut un lien .glb"); return; }
+  const res = await postToServer({ action: "add", item: { name, price, model, ingredients } });
+  if (res.status === "ok") await loadDishesFromServer();
+  else alert("Erreur ajout : " + (res.message||""));
 });
 
-// Initialisation
-window.onload = () => {
-  showMenu();
-  updateMenuButtons();
-};
+// Utils
+function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
+function escapeAttr(s){ return (s||""); }
+
+// Init
+window.addEventListener("load", () => {
+  loadDishesFromServer();
+});
