@@ -1,232 +1,72 @@
 body {
+  font-family: Arial, sans-serif;
+  background: #fff8f0;
   margin: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: #fff7f0;
-  color: #333;
+  padding: 0;
+  text-align: center;
 }
 
 header {
-  background-color: #8B0000;
+  background-color: #c0392b;
   color: white;
-  text-align: center;
-  padding: 15px 10px;
-  position: relative;
+  padding: 1rem;
 }
 
-header .header-container {
+.logo {
+  width: 80px;
+}
+
+#menu {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
 }
 
-header .logo {
-  width: 120px;
+#menu button {
+  margin: 10px;
+  padding: 15px 20px;
+  background-color: #e67e22;
+  color: white;
+  border: none;
   border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.tagline {
-  font-style: italic;
-  font-size: 0.9em;
-  margin-top: 5px;
-}
-
-#owner-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  z-index: 200;
-}
-
-.sticky {
-  position: sticky;
-  top: 0;
-  background-color: #fff7f0;
-  z-index: 100;
-  padding: 10px 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.menu-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.menu-btn {
-  background-color: #8B0000;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 15px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.menu-btn.active, .menu-btn:hover {
-  background-color: #a10000;
-  transform: scale(1.05);
+#menu button:hover {
+  background-color: #d35400;
 }
 
-.menu {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px 10px 40px 10px;
-}
-
-.dish {
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  padding: 15px;
-  width: 240px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.6s forwards;
-  position: relative;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-model-viewer {
-  width: 100%;
-  height: 250px;
-  border-radius: 12px;
-  background-color: #eee;
-  pointer-events: auto;
-}
-
-.price {
-  color: #8B0000;
-  font-weight: bold;
-  margin-top: 8px;
-  font-size: 1.1em;
-}
-
-.dish .admin-dish-btns {
-  display: flex;
-  gap: 5px;
-  margin-top: 10px;
-}
-
-.admin-dish-btns button {
-  padding: 5px 8px;
-  font-size: 0.8em;
-  cursor: pointer;
-  border-radius: 5px;
-  border: none;
-}
-
-.admin-dish-btns .edit-btn {
-  background-color: #f0ad4e;
-  color: white;
-}
-
-.admin-dish-btns .delete-btn {
-  background-color: #d9534f;
-  color: white;
-}
-
-.popup.hidden {
-  display: none;       
-  pointer-events: none; 
-}
-
-.popup {
-  display: flex;        
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
-  pointer-events: auto;
-}
-
-.popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
+#viewer {
+  margin: 20px auto;
   width: 90%;
-  max-width: 400px;
-  text-align: center;
-  position: relative;
+  height: 400px;
+  background: #f4f4f4;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.popup-content model-viewer {
-  height: 250px;
-  width: 100%;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-.admin-panel {
-  background-color: #fff3cd;
-  border: 2px solid #ffeeba;
-  padding: 15px;
+#adminPanel {
+  background: #ffe;
+  padding: 20px;
   margin: 20px;
   border-radius: 10px;
-  text-align: center;
 }
 
-.admin-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.admin-panel.hidden {
+.hidden {
   display: none;
 }
 
-.feedback {
-  text-align: center;
-  margin: 30px 0;
-}
-
-.feedback .btn {
-  margin-top: 10px;
-}
-
 footer {
-  background-color: #8B0000;
+  background: #c0392b;
   color: white;
-  padding: 20px 10px;
-  text-align: center;
-  font-size: 0.9em;
+  padding: 10px;
 }
 
-@media (max-width: 600px) {
-  .menu {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .dish {
-    width: 90%;
-  }
+footer a {
+  color: #f1c40f;
+  text-decoration: none;
+  margin-left: 10px;
 }
